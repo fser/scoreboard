@@ -15,10 +15,18 @@ class Challenge(models.Model):
 	def __unicode__(self):
 		return self.title
 
+	def solved_by(self):
+		r = Response.objects.filter(challenge=self)
+		res = []
+		for cr in r:
+			res.append(cr.user)
+		# FIXME#return filter(lambda e: e.user, r)
+		return res
+
 class Response(models.Model):
 	user      = models.ForeignKey(User,)
 	challenge = models.ForeignKey(Challenge)
-	date      = models.DateTimeField()
+	date      = models.DateTimeField(auto_now=True)
 
 	def __unicode__(self):
 		return '%s at %s' % (self.user, self.date)

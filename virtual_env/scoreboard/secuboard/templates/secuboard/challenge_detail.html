@@ -1,9 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Challenges Detail</h2>
-<h3>{{ object.title }}</h3>
+<h2>Challenge {{ object.id }} : {{ object.title }}</h2>
 
 <p>{{ object.challenge }}</p>
+
+{% if object.linked_file %}
+	<a href="{{ object.linked_file.url }}">Fichier lié</a>
+	{{ object.linked_file.path }}
+{% endif %}
+
+{% if not user in challenge.solved_by %}
+<form method="post" action="/challenge/validate/{{object.id}}"> {% csrf_token %}
+	<label for="ans">Flag:</label>
+	<input type="text" id="ans" name="answer" />
+	<input type="submit" />
+</form>
+{% else %}
+<p>Challenge déjà résolu!</p>
+{% endif %}
 
 {% endblock %}
