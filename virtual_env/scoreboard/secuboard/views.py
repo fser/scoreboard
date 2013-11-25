@@ -42,8 +42,10 @@ class Scoreboard(ListView):
         users = User.objects.all()
         for current_user in users:
             user_responses = Response.objects.filter(user=current_user)
-            scores.append({'username': current_user, 'score': sum([rsp.challenge.reward for rsp in user_responses])})
-        return scores
+            scores.append({'username': current_user, 
+	    		   'score': sum([rsp.challenge.reward for rsp in user_responses]), 
+			   'epreuves': ','.join([str(rsp.challenge.id) for rsp in user_responses]),})
+        return sorted(scores, key=lambda elt : elt['score'], reverse=True)
 
 def validate(request, id):
 	if not request.user.is_authenticated():

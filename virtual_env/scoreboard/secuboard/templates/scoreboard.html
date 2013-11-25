@@ -5,7 +5,7 @@
 
 <ol>
 {% for challenger in object_list %}
-    <li>{{ challenger.username }} {{ challenger.score }}</li>
+    <li>{{ challenger.username }} {{ challenger.score }} [ {{ challenger.epreuves }} ]</li>
 {% endfor %}
 </ol>
 
